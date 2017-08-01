@@ -1,6 +1,6 @@
 Package: glmnetUtils
 Type: Package
-Version: 1.0.2
+Version: 1.1
 Title: Utilities for 'Glmnet'
 Description: Provides a formula interface for the 'glmnet' package for
     elasticnet regression, a method for cross-validating the alpha parameter,
@@ -13,9 +13,10 @@ NeedsCompilation: no
 VignetteBuilder: knitr
 Copyright: Microsoft
 License: GPL-2
+URL: https://github.com/Hong-Revo/glmnetUtils
 Collate: 'glmnetUtils.r' 'cvGlmnetFormula.r' 'cvaGlmnetFormula.r'
         'glmnetFormula.r' 'makeModelComponents.r'
-RoxygenNote: 5.0.1
-Packaged: 2017-04-24 02:00:31 UTC; hongooi
+RoxygenNote: 6.0.1
+Packaged: 2017-08-01 12:02:41 UTC; hongooi
 Repository: CRAN
-Date/Publication: 2017-04-24 06:13:52 UTC
+Date/Publication: 2017-08-01 12:37:24 UTC
