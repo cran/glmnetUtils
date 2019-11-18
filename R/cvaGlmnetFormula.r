@@ -108,11 +108,11 @@ cva.glmnet.default <- function(x, y, alpha=seq(0, 1, len=11)^3, nfolds=10,
 #'
 #' @section Value:
 #' For `cva.glmnet.default`, an object of class `cva.glmnet`. This is a list containing the following:
-#' 
+#'
 #' * `alpha` The vector of alpha values
 #' * `nfolds` The number of folds
 #' * `modlist` A list of `cv.glmnet` objects, containing the cross-validation results for each value of alpha
-#' 
+#'
 #' The function `cva.glmnet.formula` adds a few more components to the above, to facilitate working with formulas.
 #'
 #' @examples
@@ -122,7 +122,7 @@ cva.glmnet.default <- function(x, y, alpha=seq(0, 1, len=11)^3, nfolds=10,
 #' \dontrun{
 #'
 #' # Leukemia example dataset from Trevor Hastie's website
-#' download.file("http://web.stanford.edu/~hastie/glmnet/glmnetData/Leukemia.RData",
+#' download.file("https://web.stanford.edu/~hastie/glmnet/glmnetData/Leukemia.RData",
 #'               "Leukemia.RData")
 #' load("Leukemia.Rdata")
 #' leuk <- do.call(data.frame, Leukemia)
@@ -133,8 +133,8 @@ cva.glmnet.default <- function(x, y, alpha=seq(0, 1, len=11)^3, nfolds=10,
 #' @method cva.glmnet formula
 #' @export
 cva.glmnet.formula <- function(formula, data, ..., weights=NULL, offset=NULL, subset=NULL,
-                                   na.action=getOption("na.action"), drop.unused.levels=FALSE, xlev=NULL, 
-                                   sparse=FALSE, use.model.frame=FALSE)
+                               na.action=getOption("na.action"), drop.unused.levels=FALSE, xlev=NULL,
+                               sparse=FALSE, use.model.frame=FALSE)
 {
     # must use NSE to get model.frame emulation to work
     cl <- match.call(expand.dots=FALSE)
@@ -242,6 +242,7 @@ print.cva.glmnet.formula <- function(x, ...)
 }
 
 
+#' @param legend.x,legend.y Location for the legend. Defaults to the top-left corner of the plot.
 #' @details
 #' The plot method for `cva.glmnet` objects plots the average cross-validated loss by lambda, for each value of alpha. Each line represents one `cv.glmnet` fit, corresponding to one value of alpha. Note that the specific lambda values can vary substantially by alpha.
 #'
@@ -250,7 +251,7 @@ print.cva.glmnet.formula <- function(x, ...)
 #' @method plot cva.glmnet
 #' @rdname cva.glmnet
 #' @export
-plot.cva.glmnet <- function(x, ...)
+plot.cva.glmnet <- function(x, ..., legend.x=xlim[1], legend.y=xlim[2])
 {
     n <- length(x$modlist)
     cvm <- sapply(x$modlist, "[[", "cvm", simplify=FALSE)
@@ -263,6 +264,7 @@ plot.cva.glmnet <- function(x, ...)
     ylim <- range(ylst)
     plot(NA, xlim=xlim, ylim=ylim, xlab="log Lambda", ylab=x$modlist[[1]]$name, type="n", ...)
     for(i in seq_along(cvm)) lines(log(xlst[[i]]), ylst[[i]], col=i)
+    graphics::legend(xlim[1], ylim[2], x$alpha, col=seq_along(x$alpha), lty=1)
     invisible(x)
 }
 

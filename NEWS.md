@@ -1,3 +1,8 @@
+## glmnetUtils 1.1.3
+
+- Support relaxed (non-regularised) fits in `glmnet.formula` and `cv.glmnet.formula` (requires glmnet 3.0 or later).
+- Add a legend when plotting a `cva.glmnet` object.
+
 ## glmnetUtils 1.1.2
 
 - Fixes a bug in the assignment of observations to crossvalidation folds in `cva.glmnet`. The impact is most serious for small datasets, where the number of observations per fold is relatively low. If you are using this function, it's highly recommended you update the package.
