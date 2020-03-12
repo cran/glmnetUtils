@@ -1,8 +1,8 @@
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 library(glmnetUtils)
 library(MASS)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # least squares regression
 (mtcarsMod <- glmnet(mpg ~ cyl + disp + hp, data=mtcars))
 
@@ -13,7 +13,7 @@ library(MASS)
 (InsMod <- glmnet(Claims ~ District + Group + Age, data=MASS::Insurance,
                   family="poisson", offset=log(Holders)))
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # least squares regression: get predictions for lambda=1
 #  predict(mtcarsMod, newdata=mtcars, s=1)
 #  
@@ -23,7 +23,7 @@ library(MASS)
 #  # Poisson regression: need to specify offset
 #  predict(InsMod, newdata=MASS::Insurance, offset=log(Holders))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 mtcarsX <- as.matrix(mtcars[c("cyl", "disp", "hp")])
 mtcarsY <- mtcars$mpg
 mtcarsMod2 <- glmnet(mtcarsX, mtcarsY)
@@ -31,7 +31,7 @@ mtcarsMod2 <- glmnet(mtcarsX, mtcarsY)
 summary(as.numeric(predict(mtcarsMod, mtcars) - 
                    predict(mtcarsMod2, mtcarsX)))
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # generate sample (uncorrelated) data of a given size
 #  makeSampleData <- function(N, P)
 #  {
@@ -56,15 +56,15 @@ summary(as.numeric(predict(mtcarsMod, mtcars) -
 #  )
 #  print(res, unit="s", digits=2)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  df4 <- makeSampleData(N=1000, P=100000)
 #  
 #  glmnet(y ~ ., df4, use.model.frame=TRUE)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  glmnet(y ~ ., df4, use.model.frame=FALSE)
 
-## ---- echo = FALSE-------------------------------------------------------
+## ---- echo = FALSE------------------------------------------------------------
 leukFile <- file.path(tempdir(), "Leukemia.rdata")
 if(!file.exists(leukFile))
 {
@@ -72,7 +72,7 @@ if(!file.exists(leukFile))
 }
 load(leukFile)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # Leukemia dataset from Trevor Hastie's website:
 # https://web.stanford.edu/~hastie/glmnet/glmnetData/Leukemia.RData
 leuk <- do.call(data.frame, Leukemia)
@@ -80,9 +80,9 @@ leuk <- do.call(data.frame, Leukemia)
 leukMod <- cva.glmnet(y ~ ., data=leuk, family="binomial")
 leukMod
 
-## ---- fig.height=5, fig.width=7------------------------------------------
+## ---- fig.height=5, fig.width=7-----------------------------------------------
 plot(leukMod)
 
-## ---- fig.height=5, fig.width=7------------------------------------------
+## ---- fig.height=5, fig.width=7-----------------------------------------------
 plot(leukMod$modlist[[10]])  # alpha = 0.729
 
