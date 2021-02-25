@@ -1,6 +1,6 @@
-80ea42be5e3fc54b7a620bb7068cad3b *DESCRIPTION
+642bbc0ac6c95d6e6495e4b5561e65ad *DESCRIPTION
 486a22264fd44cefde8ec1200f0c8264 *NAMESPACE
-020b5e4280830793a6ad9ccf70c4ee05 *NEWS.md
+95f6cb6fef60dc46f714f3819537d5db *NEWS.md
 647727d23c9eb6e86720b65af84774e0 *R/cvGlmnetFormula.r
 154d06667b9fdb66c1fbba89cd977c19 *R/cvaGlmnetFormula.r
 148872a48769e99971b0b28b0b46efa3 *R/glmnetFormula.r
@@ -9,7 +9,7 @@
 93512dbe3abcc8790406b9c0f6208a61 *README.md
 c0a018ca43a74858b4e6a5ba147ba365 *build/vignette.rds
 de6250332952f4eb7ca864eb1eb42dda *inst/doc/intro.R
-671a419fb96ac942b171f3b7732e9ab8 *inst/doc/intro.html
+03d1d5d2bc152aa0aba8c17e034b5512 *inst/doc/intro.html
 818272998aabf04000620b1b2bf4d81f *inst/doc/intro.rmd
 3b6709a4f8218136b09922cd74712122 *man/cv.glmnet.Rd
 5b8aa7e1f236de870afba13d0857d07e *man/cva.glmnet.Rd
@@ -24,5 +24,5 @@ f1618a5e26fb5a366e342996a904bdcd *tests/testthat/test1_glmnet.R
 c710ae79de62eb2a1d3e77eee7cab4bd *tests/testthat/test4_predict.R
 121a161ddf61bae43e80455749f4728d *tests/testthat/test5_relaxed.R
 a1db3679020afe76b9b1c072cff41d9a *tests/testthat/test6_relaxed_cv.R
-adba682a265ea60458036613cb6cb68e *tests/testthat/test7_family.R
+c353a412a99f3df359e2daa29e7838e3 *tests/testthat/test7_family.R
 818272998aabf04000620b1b2bf4d81f *vignettes/intro.rmd
