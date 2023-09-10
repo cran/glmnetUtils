@@ -52,7 +52,7 @@ mtcarsX <- as.matrix(mtcars[c("cyl", "disp", "hp")])
 mtcarsY <- mtcars$mpg
 mtcarsMod2 <- glmnet(mtcarsX, mtcarsY)
 
-summary(as.numeric(predict(mtcarsMod, mtcars) - 
+summary(as.numeric(predict(mtcarsMod, mtcars) -
                    predict(mtcarsMod2, mtcarsX)))
 ```
 
@@ -98,13 +98,13 @@ df3 <- makeSampleData(N=1000, P=10000)
 
 library(microbenchmark)
 res <- microbenchmark(
-    glmnet(y ~ ., df1, use.model.frame=TRUE), 
-    glmnet(y ~ ., df1, use.model.frame=FALSE), 
-    glmnet(y ~ ., df2, use.model.frame=TRUE), 
-    glmnet(y ~ ., df2, use.model.frame=FALSE), 
-    glmnet(y ~ ., df3, use.model.frame=TRUE), 
+    glmnet(y ~ ., df1, use.model.frame=TRUE),
+    glmnet(y ~ ., df1, use.model.frame=FALSE),
+    glmnet(y ~ ., df2, use.model.frame=TRUE),
+    glmnet(y ~ ., df2, use.model.frame=FALSE),
+    glmnet(y ~ ., df3, use.model.frame=TRUE),
     glmnet(y ~ ., df3, use.model.frame=FALSE),
-    times=10 
+    times=10
 )
 print(res, unit="s", digits=2)
 ```
@@ -163,16 +163,7 @@ As an option, glmnetUtils can also generate a _sparse_ model matrix, using the `
 
 One piece missing from the standard glmnet package is a way of choosing $\alpha$, the elastic net mixing parameter, similar to how `cv.glmnet` chooses $\lambda$, the shrinkage parameter. To fix this, glmnetUtils provides the `cva.glmnet` function, which uses crossvalidation to examine the impact on the model of changing $\alpha$ and $\lambda$. The interface is the same as for the other functions:
 
-```{r, echo = FALSE}
-leukFile <- file.path(tempdir(), "Leukemia.rdata")
-if(!file.exists(leukFile))
-{
-    download.file("https://web.stanford.edu/~hastie/glmnet/glmnetData/Leukemia.RData", leukFile, mode = "wb")
-}
-load(leukFile)
-```
-
-```{r}
+```r
 # Leukemia dataset from Trevor Hastie's website:
 # https://web.stanford.edu/~hastie/glmnet/glmnetData/Leukemia.RData
 leuk <- do.call(data.frame, Leukemia)
@@ -181,26 +172,41 @@ leukMod <- cva.glmnet(y ~ ., data=leuk, family="binomial")
 leukMod
 ```
 
+```
+## Call:
+## cva.glmnet.formula(formula = y ~ ., data = leuk, family = "binomial")
+## 
+## Model fitting options:
+##     Sparse model matrix: FALSE
+##     Use model.frame: FALSE
+##     Alpha values: 0 0.001 0.008 0.027 0.064 0.125 0.216 0.343 0.512 0.729 1
+##     Number of crossvalidation folds for lambda: 10
+```
+
 `cva.glmnet` uses the algorithm described in the help for `cv.glmnet`, which is to fix the distribution of observations across folds and then call `cv.glmnet` in a loop with different values of $\alpha$. Optionally, you can parallelise this outer loop, by setting the `outerParallel` argument to a non-NULL value. Currently, glmnetUtils supports the following methods of parallelisation:
 
 - Via `parLapply` in the parallel package. To use this, set `outerParallel` to a valid cluster object created by `makeCluster`. 
-- Via `rxExec` as supplied by [Microsoft R Server's](https://www.microsoft.com/en-au/sql-server/machine-learning-server) RevoScaleR package. To use this, set `outerParallel` to a valid compute context created by `RxComputeContext`, or a character string specifying such a context. 
+- Via `rxExec` as supplied by the (now retired) RevoScaleR package from Microsoft R Server. To use this, set `outerParallel` to a valid compute context created by `RxComputeContext`, or a character string specifying such a context. 
 
 If the outer loop is run in parallel, `cva.glmnet` can check if the inner loop (over $\lambda$) is also set to run in parallel, and disable this if it would lead to contention for cores.
 
 Because crossvalidation is often a statistically noisy procedure, it doesn't try to automatically choose $\alpha$ and $\lambda$ for you. Instead you can plot the output, to see how the results depend on the values of these parameters. Using this information, you can choose appropriate values for your data.
 
-```{r, fig.height=5, fig.width=7}
+```r
 plot(leukMod)
 ```
+
+![](figures/leukModCVA.png)
 
 In this case, we see that values of $\alpha$ close to $1$ tend to lead to better accuracy. The curves don't have a well-defined minimum, but they do flatten out for lower values of $\lambda$. As the `cv.glmnet` documentation recommends though, it's a good idea to run `cva.glmnet` multiple times to reduce the impact of noise.
 
 A `cva.glmnet` object contains a list of individual `cv.glmnet` objects, corresponding to the different $\alpha$ values tried. This lets you plot the crossvalidation results easily for a given $\alpha$:
 
-```{r, fig.height=5, fig.width=7}
+```r
 plot(leukMod$modlist[[10]])  # alpha = 0.729
 ```
+
+![](figures/leukModList.png)
 
 ## Conclusion
 

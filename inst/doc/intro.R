@@ -28,7 +28,7 @@ mtcarsX <- as.matrix(mtcars[c("cyl", "disp", "hp")])
 mtcarsY <- mtcars$mpg
 mtcarsMod2 <- glmnet(mtcarsX, mtcarsY)
 
-summary(as.numeric(predict(mtcarsMod, mtcars) - 
+summary(as.numeric(predict(mtcarsMod, mtcars) -
                    predict(mtcarsMod2, mtcarsX)))
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -63,26 +63,4 @@ summary(as.numeric(predict(mtcarsMod, mtcars) -
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  glmnet(y ~ ., df4, use.model.frame=FALSE)
-
-## ---- echo = FALSE------------------------------------------------------------
-leukFile <- file.path(tempdir(), "Leukemia.rdata")
-if(!file.exists(leukFile))
-{
-    download.file("https://web.stanford.edu/~hastie/glmnet/glmnetData/Leukemia.RData", leukFile, mode = "wb")
-}
-load(leukFile)
-
-## -----------------------------------------------------------------------------
-# Leukemia dataset from Trevor Hastie's website:
-# https://web.stanford.edu/~hastie/glmnet/glmnetData/Leukemia.RData
-leuk <- do.call(data.frame, Leukemia)
-
-leukMod <- cva.glmnet(y ~ ., data=leuk, family="binomial")
-leukMod
-
-## ---- fig.height=5, fig.width=7-----------------------------------------------
-plot(leukMod)
-
-## ---- fig.height=5, fig.width=7-----------------------------------------------
-plot(leukMod$modlist[[10]])  # alpha = 0.729
 
